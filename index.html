@@ -1,1 +1,412 @@
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08090c">
+<meta name="description" content="MOMENTS IN THE LIFE… 映画、ドラマ、CM、ファッション、美容、文化、旅行などを扱う独立系Webメディア。">
+<title>MOMENTS IN THE LIFE… | Independent Media</title>
+
+<style>
+:root {
+  --bg:#08090c;
+  --panel:#14161d;
+  --line:#35363d;
+  --white:#f5f2ed;
+  --muted:#aaa7a1;
+  --gold:#c9a66b;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial,"Noto Sans JP",sans-serif;
+  line-height:1.85;
+}
+a { color:inherit; text-decoration:none; }
+button { font:inherit; cursor:pointer; }
+button:focus-visible,a:focus-visible {
+  outline:2px solid var(--gold);
+  outline-offset:3px;
+}
+header {
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(8,9,12,.98);
+  border-bottom:1px solid var(--line);
+}
+.brand {
+  text-align:center;
+  padding:22px 95px 10px;
+  font-family:Georgia,serif;
+  font-size:clamp(18px,3vw,32px);
+  letter-spacing:.09em;
+  line-height:1.3;
+}
+.gold { color:var(--gold); }
+.subtitle {
+  color:var(--muted);
+  text-align:center;
+  font-size:10px;
+  letter-spacing:.22em;
+  padding:0 12px 16px;
+}
+.language {
+  position:absolute;
+  top:19px;
+  right:22px;
+  display:flex;
+  gap:5px;
+}
+.language button {
+  background:transparent;
+  border:1px solid var(--line);
+  color:var(--muted);
+  padding:5px 11px;
+  font-size:12px;
+}
+.language button.selected {
+  background:var(--gold);
+  border-color:var(--gold);
+  color:#08090c;
+}
+.tabs {
+  display:flex;
+  overflow-x:auto;
+  scrollbar-width:thin;
+  padding:0 14px;
+  border-top:1px solid var(--line);
+}
+.tabs a {
+  flex-shrink:0;
+  padding:12px 15px;
+  font-size:12px;
+  color:var(--muted);
+  border-bottom:2px solid transparent;
+}
+.tabs a:hover,.tabs a.active {
+  color:var(--gold);
+  border-bottom-color:var(--gold);
+}
+.layout {
+  display:flex;
+  min-height:75vh;
+}
+aside {
+  width:225px;
+  flex-shrink:0;
+  padding:35px 18px;
+  border-right:1px solid var(--line);
+}
+.side-label {
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:.2em;
+  padding:0 12px 15px;
+}
+aside a {
+  display:block;
+  padding:9px 12px;
+  font-size:13px;
+  color:var(--muted);
+  border-left:2px solid transparent;
+}
+aside a:hover,aside a.active {
+  color:var(--white);
+  background:#1b1d23;
+  border-left-color:var(--gold);
+}
+main {
+  width:100%;
+  min-width:0;
+  padding:50px clamp(20px,5vw,85px) 90px;
+}
+.page { display:none; }
+.page.active {
+  display:block;
+  animation:fade .3s ease;
+}
+@keyframes fade {
+  from { opacity:0;transform:translateY(8px); }
+  to { opacity:1;transform:translateY(0); }
+}
+.kicker {
+  font-size:11px;
+  color:var(--gold);
+  letter-spacing:.25em;
+  text-transform:uppercase;
+}
+h1,h2,h3 { font-weight:400; }
+h1 {
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:clamp(35px,5.5vw,70px);
+  line-height:1.3;
+  margin:22px 0;
+}
+h2 {
+  font-family:Georgia,"Noto Serif JP",serif;
+  font-size:clamp(25px,3.5vw,40px);
+  line-height:1.4;
+}
+h3 {
+  font-size:19px;
+  color:var(--gold);
+}
+p { max-width:800px; }
+.lead {
+  font-size:17px;
+  color:#e0dbd3;
+}
+.muted { color:var(--muted); }
+.rule {
+  height:1px;
+  background:var(--line);
+  margin:40px 0;
+}
+.hero {
+  min-height:420px;
+  border:1px solid var(--line);
+  background:
+    radial-gradient(ellipse at 80% 10%,#3b2b1b,transparent 50%),
+    linear-gradient(135deg,#191b24,#08090c 75%);
+  padding:clamp(25px,5vw,65px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.hero h1 {
+  font-size:clamp(36px,6vw,80px);
+}
+.hero-sub {
+  font-size:12px;
+  letter-spacing:.15em;
+  color:var(--muted);
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:30px;
+}
+.tile {
+  min-height:155px;
+  padding:22px;
+  border:1px solid var(--line);
+  background:linear-gradient(140deg,#1b1d25,#0b0c10);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:.2s;
+}
+.tile:hover {
+  border-color:var(--gold);
+  transform:translateY(-3px);
+}
+.tile strong {
+  font-size:18px;
+  font-weight:400;
+}
+.tile small {
+  color:var(--gold);
+  letter-spacing:.12em;
+  font-size:10px;
+}
+.coming {
+  margin-top:35px;
+  min-height:340px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#191b22,#090a0d);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:25px;
+}
+.coming strong {
+  font-family:Georgia,serif;
+  font-size:clamp(28px,5vw,50px);
+  font-weight:400;
+  letter-spacing:.12em;
+}
+.coming span {
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:.2em;
+  margin-top:12px;
+}
+.back-link {
+  display:inline-block;
+  margin-top:28px;
+  color:var(--gold);
+  font-size:13px;
+  border-bottom:1px solid var(--gold);
+}
+.policy-item {
+  border-top:1px solid var(--line);
+  padding:23px 0;
+}
+.policy-item h3 { margin:0 0 8px; }
+.policy-item p { margin:0; }
+.profile {
+  display:grid;
+  grid-template-columns:minmax(160px,260px) 1fr;
+  gap:35px;
+  margin-top:35px;
+}
+.profile img {
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border:1px solid var(--line);
+}
+.photo-note {
+  color:var(--muted);
+  font-size:12px;
+}
+footer {
+  text-align:center;
+  padding:40px 20px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:11px;
+}
+footer strong {
+  font-family:Georgia,serif;
+  font-size:19px;
+  font-weight:400;
+  color:var(--white);
+}
+@media(max-width:900px) {
+  aside { width:170px;padding:25px 10px; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:650px) {
+  aside { display:none; }
+  main { padding:35px 20px 65px; }
+  .brand { padding:60px 10px 8px; }
+  .language { top:14px;right:15px; }
+  .subtitle { font-size:9px;letter-spacing:.12em; }
+  .tabs { padding:0 5px; }
+  .tabs a { padding:12px; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .tile { min-height:120px;padding:15px; }
+  .tile strong { font-size:15px; }
+  .profile { grid-template-columns:1fr; }
+  .profile img { max-width:260px; }
+  .hero { min-height:340px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="language" aria-label="Language selection">
+    <button id="btnJA" type="button" onclick="setLanguage('ja')">JP</button>
+    <button id="btnEN" type="button" onclick="setLanguage('en')">EN</button>
+  </div>
+
+  <div class="brand">
+    <a href="#home">MOMENTS IN THE LIFE<span class="gold">…</span></a>
+  </div>
+  <div class="subtitle">
+    INDEPENDENT CULTURE & ENTERTAINMENT MEDIA
+  </div>
+  <nav class="tabs" id="topNav" aria-label="Top navigation"></nav>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="side-label">EXPLORE</div>
+    <nav id="sideNav" aria-label="Side navigation"></nav>
+  </aside>
+  <main id="content" tabindex="-1"></main>
+</div>
+
+<footer>
+  <strong>MOMENTS IN THE LIFE…</strong>
+  <p style="margin:12px auto">
+    INDEPENDENT CULTURE & ENTERTAINMENT MEDIA
+  </p>
+  <p style="margin:0 auto">
+    © <span id="year"></span> MOMENTS IN THE LIFE… All Rights Reserved.
+  </p>
+</footer>
+
+<script>
+const categories = [
+  {id:"cinema",ja:"映画",en:"Cinema",label:"CINEMA"},
+  {id:"drama",ja:"ドラマ",en:"Drama",label:"DRAMA"},
+  {id:"commercial",ja:"CM",en:"Commercials",label:"COMMERCIALS"},
+  {id:"fashion",ja:"ファッション",en:"Fashion",label:"FASHION"},
+  {id:"beauty",ja:"コスメ／スキンケア",en:"Beauty / Skincare",label:"BEAUTY & SKINCARE"},
+  {id:"culture",ja:"文化",en:"Culture",label:"CULTURE"},
+  {id:"travel",ja:"旅行",en:"Travel",label:"TRAVEL"},
+  {id:"outing",ja:"お出かけ",en:"Places to Go",label:"PLACES TO GO"},
+  {id:"other",ja:"その他",en:"Other",label:"OTHER"}
+];
+
+const copy = {
+  ja:{
+    home:"ホーム",
+    policy:"媒体運営方針",
+    editor:"編集長・ライター",
+    contact:"お問い合わせ",
+    perspective:"世界の、その瞬間を。",
+    intro:"映画、ドラマ、広告、ファッション、美容、文化、旅。さまざまな表現と出会いを通して、世界の今を見つめる独立系Webメディア。",
+    intro2:"MOMENTS IN THE LIFE… は、作品、人、場所、文化に宿るそれぞれの瞬間を記録し、伝えていきます。",
+    sections:"カテゴリー",
+    coming:"記事を準備しています。",
+    back:"ホームへ戻る",
+    policyTitle:"媒体運営方針",
+    policyLead:"MOMENTS IN THE LIFE… は、映画、映像、ファッション、美容、文化、旅行など、多様な分野を横断して情報を届ける独立系Webメディアです。",
+    policies:[
+      ["編集理念","一つのジャンルや価値観にとらわれず、作品や人物、地域、文化が持つ魅力を丁寧に伝えます。新しい発見や多様な視点との出会いを大切にします。"],
+      ["取材・掲載領域","映画、ドラマ、CM、ファッション、コスメ・スキンケア、文化、旅行、お出かけなどを対象とし、作品紹介、イベント、現地レポート、インタビューなどを掲載していく方針です。"],
+      ["正確性と透明性","公開情報と取材によって得た情報を区別し、可能な限り事実確認を行います。誤りが判明した場合は確認のうえ修正し、広告・協賛・提供を伴う記事では、その関係性を明示します。"],
+      ["独立性と公正性","編集上の判断は媒体の方針に基づいて行い、多様な立場や背景を尊重します。編集長自身の俳優活動などによる利害関係がある場合は、必要に応じて開示します。"],
+      ["著作権・取材倫理","写真、映像、文章などの権利を尊重し、必要な許諾や利用条件を確認します。取材対象者の尊厳とプライバシーに配慮します。"],
+      ["国際的な発信","日本国内だけでなく、海外の映画、芸術、ファッション、旅行、文化にも視野を広げ、国や言語の違いを越えて新しい価値に出会える媒体を目指します。"]
+    ],
+    editorTitle:"編集長・ライター紹介",
+    editorName:"涼川 笑鈴",
+    editorRole:"俳優・ライター・メディア編集長",
+    editorBio1:"日本を拠点に俳優として映像作品に携わりながら、映画、ドラマ、ファッション、文化、旅行など、多様な表現や人々の営みに関心を持ち、発信活動を行っています。",
+    editorBio2:"作品を観る側と、映像制作の現場に参加する側。その両方の視点を生かし、作品や表現に関わる人々の魅力、そして日々の中にある発見を伝えていきます。",
+    editorBio3:"MOMENTS IN THE LIFE… の創設者として、編集方針の策定、企画、取材、執筆、サイト運営を担当します。",
+    independent:"本媒体は個人が編集・運営する独立系Webメディアです。",
+    contactTitle:"取材・お問い合わせ",
+    contactLead:"取材、プレス向け情報、掲載に関するお問い合わせ窓口を準備しています。",
+    photoNote:"プロフィール写真は準備中です。"
+  },
+  en:{
+    home:"Home",
+    policy:"Editorial Policy",
+    editor:"Editor / Writer",
+    contact:"Contact",
+    perspective:"Capturing moments from around the world.",
+    intro:"Cinema, television, commercials, fashion, beauty, culture and travel. An independent editorial platform exploring the world through creative expression, people and places.",
+    intro2:"MOMENTS IN THE LIFE… documents and shares the moments that shape stories, people, places and cultures.",
+    sections:"Explore Sections",
+    coming:"Stories are coming soon.",
+    back:"Back to Home",
+    policyTitle:"Editorial Policy",
+    policyLead:"MOMENTS IN THE LIFE… is an independent digital publication covering cinema, television, fashion, beauty, culture, travel and other fields of creative expression.",
+    policies:[
+      ["Editorial Vision","We aim to explore stories, people, places and cultures without being limited to a single genre or perspective. We value discovery, diversity and thoughtful storytelling."],
+      ["Coverage","Our editorial scope includes cinema, television, commercials, fashion, beauty and skincare, culture, travel and places to visit. Planned content includes features, event reports, interviews and on-location coverage."],
+      ["Accuracy and Transparency","We distinguish publicly available information from information obtained through reporting and aim to verify facts wherever possible. Errors will be reviewed and corrected. Advertising, sponsorships and provided products or services will be disclosed when applicable."],
+      ["Editorial Independence","Editorial decisions are guided by the publication's own principles. We respect diverse perspectives and disclose relevant conflicts of interest, including those arising from the editor's acting career, when appropriate."],
+      ["Copyright and Reporting Ethics","We respect intellectual property rights and applicable permissions for text, photography and video. We also respect the privacy and dignity of the people we cover."],
+      ["International Perspective","
