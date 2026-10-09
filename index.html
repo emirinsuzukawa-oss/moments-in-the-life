@@ -21,7 +21,7 @@
     .edition{text-align:center}
     @media(max-width:1000px){.header-row{padding:0}.languages{position:static;transform:none;justify-content:flex-end;margin-top:18px}}
     .news-section{margin-bottom:44px}
-    .news-feature{border:1px solid var(--line);border-left:3px solid var(--gold);padding:28px;background:linear-gradient(120deg,#211b10,#101010 75%)}
+    .news-feature{display:block;text-decoration:none;border:1px solid var(--line);border-left:3px solid var(--gold);padding:28px;background:linear-gradient(120deg,#211b10,#101010 75%)}
     .news-feature .eyebrow{margin-bottom:12px}
     .news-feature h3{font-family:Georgia,"Yu Mincho",serif;font-size:clamp(1.4rem,3vw,2rem);font-weight:400;line-height:1.5;margin:0 0 18px}
     .news-feature .soon{margin-bottom:0}
@@ -71,11 +71,11 @@
       <section id="home-view" aria-label="Home">
         <section class="news-section" aria-labelledby="news-title">
           <h2 class="section-heading" id="news-title" data-ja="ニュース" data-en="News">ニュース</h2>
-          <article class="news-feature">
+          <a class="news-feature" href="#tiff2026">
             <p class="eyebrow" data-ja="特集" data-en="SPECIAL FEATURE">特集</p>
             <h3 data-ja="2026東京国際映画祭特集" data-en="2026 Tokyo International Film Festival Special Feature">2026東京国際映画祭特集</h3>
             <p class="soon">Coming Soon</p>
-          </article>
+          </a>
         </section>
         <div id="categories-section">
           <h2 class="section-heading" data-ja="カテゴリー" data-en="Categories">カテゴリー</h2>
@@ -140,7 +140,7 @@
         film: {ja: '映画', en: 'Film'}, drama: {ja: 'ドラマ', en: 'Drama'},
         commercials: {ja: 'CM', en: 'Commercials'}, fashion: {ja: 'ファッション', en: 'Fashion'},
         beauty: {ja: 'コスメ / スキンケア', en: 'Cosmetics / Skincare'}, culture: {ja: '文化', en: 'Culture'},
-        travel: {ja: '旅行', en: 'Travel'}, outings: {ja: 'お出かけ', en: 'Outings'}, other: {ja: 'その他', en: 'Other'}
+        travel: {ja: '旅行', en: 'Travel'}, outings: {ja: 'お出かけ', en: 'Outings'}, other: {ja: 'その他', en: 'Other'}, tiff2026: {ja: '2026東京国際映画祭特集', en: '2026 Tokyo International Film Festival Special Feature'}
       };
       let language = 'ja';
       try { if (localStorage.getItem('moments-language') === 'en') language = 'en'; } catch (error) { /* Storage is optional. */ }
@@ -169,12 +169,12 @@
         document.querySelectorAll('[data-language]').forEach(button => { button.setAttribute('aria-pressed', String(button.dataset.language === language)); });
         document.querySelectorAll('.top-nav a, .side-nav a').forEach(link => {
           const target = link.getAttribute('href').slice(1);
-          const active = target === current || (category && target === 'categories');
+          const active = target === current || (category && current !== 'tiff2026' && target === 'categories') || (current === 'tiff2026' && target === 'home');
           if (active) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
         });
         if (category) {
           document.getElementById('category-title').textContent = categories[current][language];
-          document.getElementById('category-kicker').textContent = categories[current].en.toUpperCase();
+          document.getElementById('category-kicker').textContent = current === 'tiff2026' ? 'SPECIAL FEATURE / 2026' : categories[current].en.toUpperCase();
         }
         const label = category ? categories[current][language] : {home: {ja: 'ホーム', en: 'Home'}, categories: {ja: 'カテゴリー', en: 'Categories'}, policy: {ja: '媒体運営方針', en: 'Editorial Policy'}, editor: {ja: '編集長・ライター', en: 'Editor & Writer'}}[current][language];
         document.title = label + ' | MOMENTS IN THE LIFE…';
